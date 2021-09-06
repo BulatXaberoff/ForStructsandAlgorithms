@@ -1,0 +1,40 @@
+using System;
+
+namespace Search
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Введите размер массива:");
+            int Size = int.Parse(Console.ReadLine());
+            int[] arr = new int[Size];
+            Console.WriteLine("Вводите значения массива:");
+            for(int i=0;i<arr.Length;i++)
+            {
+                arr[i] = int.Parse(Console.ReadLine());
+            }
+            Console.WriteLine("Исходный массив");
+            for (int i = 0; i < arr.Length; i++)
+            {
+                Console.Write($"{arr[i]} ");
+            }
+            Console.WriteLine();
+            Console.WriteLine("Введите ключ:");
+            int k = int.Parse(Console.ReadLine());
+            int index = -1;
+            for(int i=0;i<arr.Length;i++)
+            {
+                if(arr[i]==k)
+                {
+                    index = i;
+                    Console.WriteLine($"Индекс ключа:{index+1}");
+                }
+            }
+            if(index==-1)
+            {
+                Console.WriteLine("Искомый элемент не найден");
+            }
+        }
+    }
+}
