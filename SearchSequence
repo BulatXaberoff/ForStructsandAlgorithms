@@ -3,10 +3,16 @@ namespace Search
 {
     class Program
     {
-        
-        static int[] FillArr(int []arr,int size)
+        #region ForSimplification
+        static int []Create()
         {
-            arr = new int[size];
+            Console.WriteLine("Введите размер массива:");
+            int Size = int.Parse(Console.ReadLine());
+            int[] arr=new int[Size];
+            return arr;
+        }
+        static int[] FillArr(int[] arr)
+        {
             Console.WriteLine("Вводите значения массива:");
             for (int i = 0; i < arr.Length; i++)
             {
@@ -14,15 +20,20 @@ namespace Search
             }
             return arr;
         }
-        static void ShowArr(int []arr,int size)
+        static void ShowArr(int[] arr)
         {
-            Console.WriteLine("Исходный массив");
             for (int i = 0; i < arr.Length; i++)
             {
                 Console.Write($"{arr[i]} ");
             }
             Console.WriteLine();
         }
+        static void Swap(ref int a,ref int b)
+        {
+            int temp = a;a = b;b = temp;
+        }
+        #endregion
+        #region Sort
         static int []BubbleSort(int[]arr)
         {
             for (int i = 0; i<arr.Length ;i++)
@@ -37,13 +48,17 @@ namespace Search
             }
             return arr;
         }
-         static void Swap(ref int a,ref int b)
+        #endregion
+        #region Search
+        static void Search(int[] arr, int key=0)
         {
-            int temp = a;a = b;b = temp;
-        }
-        static void Search(int []arr,int key)
-        {
-           
+            int k;
+            if(key==0)
+            {
+                Console.WriteLine("Введите ключ:");
+                k = int.Parse(Console.ReadLine());
+                key = k;
+            }
             int index = -1;
             for (int i = 0; i < arr.Length; i++)
             {
@@ -58,18 +73,47 @@ namespace Search
                 Console.WriteLine("Искомый элемент не найден");
             }
         }
-       
+        static void BinarySearch(int []arr,int key=0)
+        {
+            bool check=false;
+            int index=0;
+            int first = 0, last = arr.Length - 1;
+            int k;
+            if (key == 0)
+            {
+                Console.WriteLine("Введите ключ:");
+                k = int.Parse(Console.ReadLine());
+                key = k;
+            }
+            while (first<=last)
+            {
+                int middle = (last + first) / 2;
+                if(key==arr[middle])
+                {
+                    index = middle;
+                    check = true;
+                    break;
+                }
+                else if(key< arr[middle])
+                {
+                    last = middle-1;
+                }
+                else
+                {
+                    first = middle+1;
+                }
 
+            }
+            if (check == true)
+            {
+                Console.WriteLine($"Индекс ключа:{index + 1}");
+            }
+            else
+                Console.WriteLine("Ничего не найдено");
+        }
+        #endregion
         static void Main(string[] args)
         {
-            Console.WriteLine("Введите размер массива:");
-            int Size = int.Parse(Console.ReadLine());
-            int[] arr = new int[Size];
-            arr=FillArr(arr, Size);
-            ShowArr(arr, Size);
-            Console.WriteLine("Введите ключ:");
-            int k = int.Parse(Console.ReadLine());
-            Search(arr,k);
             
         }
     }
