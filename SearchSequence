@@ -3,23 +3,7 @@ namespace Search
 {
     class Program
     {
-        static void Search(int []arr,int key)
-        {
-           
-            int index = -1;
-            for (int i = 0; i < arr.Length; i++)
-            {
-                if (arr[i] == key)
-                {
-                    index = i;
-                    Console.WriteLine($"Индекс ключа:{index + 1}");
-                }
-            }
-            if (index == -1)
-            {
-                Console.WriteLine("Искомый элемент не найден");
-            }
-        }
+        
         static int[] FillArr(int []arr,int size)
         {
             arr = new int[size];
@@ -39,6 +23,42 @@ namespace Search
             }
             Console.WriteLine();
         }
+        static int []BubbleSort(int[]arr)
+        {
+            for (int i = 0; i<arr.Length ;i++)
+            {
+                for(int j=arr.Length-1;j>i ;j--)
+                {
+                    if(arr[j]<arr[j-1])
+                    {
+                        Swap(ref arr[j], ref arr[j - 1]);
+                    }
+                }
+            }
+            return arr;
+        }
+         static void Swap(ref int a,ref int b)
+        {
+            int temp = a;a = b;b = temp;
+        }
+        static void Search(int []arr,int key)
+        {
+           
+            int index = -1;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] == key)
+                {
+                    index = i;
+                    Console.WriteLine($"Индекс ключа:{index + 1}");
+                }
+            }
+            if (index == -1)
+            {
+                Console.WriteLine("Искомый элемент не найден");
+            }
+        }
+       
 
         static void Main(string[] args)
         {
