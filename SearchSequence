@@ -8,7 +8,8 @@ namespace Search
         {
             Console.WriteLine("Введите размер массива:");
             int Size = int.Parse(Console.ReadLine());
-            int[] arr=new int[Size];
+            int[] arr = new int[Size];
+            FillArr(arr);
             return arr;
         }
         static int[] FillArr(int[] arr)
