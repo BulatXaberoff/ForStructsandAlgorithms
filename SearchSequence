@@ -1,10 +1,11 @@
 using System;
-namespace Search
+
+namespace StructPrograming
 {
     class Program
     {
         #region ForSimplification
-        static int []Create()
+        static int[] Create()
         {
             Console.WriteLine("Введите размер массива:");
             int Size = int.Parse(Console.ReadLine());
@@ -29,76 +30,97 @@ namespace Search
             }
             Console.WriteLine();
         }
-        static void Swap(ref int a,ref int b)
+        static void Swap(ref int a, ref int b)
         {
-            int temp = a;a = b;b = temp;
+            int temp = a; a = b; b = temp;
         }
         #endregion
         #region Sort
-        static int []BubbleSort(int[]arr)
+        static void BubbleSort(int[] arr)
         {
-            for (int i = 0; i<arr.Length ;i++)
+            for (int i = 0; i < arr.Length; i++)
             {
-                for(int j=arr.Length-1;j>i ;j--)
+                for (int j = arr.Length - 1; j > i; j--)
                 {
-                    if(arr[j]<arr[j-1])
+                    if (arr[j] < arr[j - 1])
                     {
                         Swap(ref arr[j], ref arr[j - 1]);
                     }
                 }
             }
-            return arr;
+            ShowArr(arr);
         }
-         static int[] SortByChoice(int[] arr)
+        static void SortByChoice(int[] arr)
         {
             int min = 0;
-            for(int i=0;i<arr.Length-1;i++)
+            for (int i = 0; i < arr.Length - 1; i++)
             {
                 min = i;
-                for(int j=i+1; j<arr.Length;j++)
+                for (int j = i + 1; j < arr.Length; j++)
                 {
                     min = (arr[j] < arr[min]) ? j : min;
                 }
-                if(i!=min)
+                if (i != min)
                 {
-                    Swap(ref arr[i],ref arr[min]);
+                    Swap(ref arr[i], ref arr[min]);
                 }
-                ShowArr(arr);
             }
-            return arr;
+            ShowArr(arr);
+
         }
-         static public int []InsertionSort(int []arr)
+        static public void InsertionSort(int[] arr)
         {
-            for(int i=1;i<arr.Length; i++)
+            for (int i = 1; i < arr.Length; i++)
                 for (int j = i; j > 0 && arr[j - 1] > arr[j]; j--)
                     Swap(ref arr[j - 1], ref arr[j]);
-            return arr;
+            ShowArr(arr);
         }
-        static public int[]SortOFShell(int []arr)
+        static public void SortOFShell(int[] arr)
         {
             int j;
             int step = arr.Length / 2;
-            while(step>0)
+            while (step > 0)
             {
-                for(int i=0;i<(arr.Length-step);i++)
+                for (int i = 0; i < (arr.Length - step); i++)
                 {
                     j = i;
-                    while((j>=0)&&(arr[j]>arr[j+step]))
+                    while ((j >= 0) && (arr[j] > arr[j + step]))
                     {
-                        Swap(ref arr[j],ref arr[j + step]);
+                        Swap(ref arr[j], ref arr[j + step]);
                         j -= step;
                     }
                 }
                 step /= 2;
             }
-            return arr;
+            ShowArr(arr);
+        }
+        static void QSort(int[] array, int firstIndex = 0, int lastIndex = -1)
+        {
+            if (lastIndex < 0)
+                lastIndex = array.Length - 1;
+            if (firstIndex >= lastIndex)
+            {
+                return;
+            }
+            int middleIndex = (lastIndex - firstIndex) / 2 + firstIndex, currentIndex = firstIndex;
+            Swap(ref array[firstIndex], ref array[middleIndex]);
+            for (int i = firstIndex + 1; i <= lastIndex; ++i)
+            {
+                if (array[i] <= array[firstIndex])
+                {
+                    Swap(ref array[++currentIndex], ref array[i]);
+                }
+            }
+            Swap(ref array[firstIndex], ref array[currentIndex]);
+            QSort(array, firstIndex, currentIndex - 1);
+            QSort(array, currentIndex + 1, lastIndex);
         }
         #endregion
         #region Search
-        static void Search(int[] arr, int key=0)
+        static void Search(int[] arr, int key = 0)
         {
             int k;
-            if(key==0)
+            if (key == 0)
             {
                 Console.WriteLine("Введите ключ:");
                 k = int.Parse(Console.ReadLine());
@@ -118,10 +140,10 @@ namespace Search
                 Console.WriteLine("Искомый элемент не найден");
             }
         }
-        static void BinarySearch(int []arr,int key=0)
+        static void BinarySearch(int[] arr, int key = 0)
         {
-            bool check=false;
-            int index=0;
+            bool check = false;
+            int index = 0;
             int first = 0, last = arr.Length - 1;
             int k;
             if (key == 0)
@@ -130,22 +152,22 @@ namespace Search
                 k = int.Parse(Console.ReadLine());
                 key = k;
             }
-            while (first<=last)
+            while (first <= last)
             {
                 int middle = (last + first) / 2;
-                if(key==arr[middle])
+                if (key == arr[middle])
                 {
                     index = middle;
                     check = true;
                     break;
                 }
-                else if(key< arr[middle])
+                else if (key < arr[middle])
                 {
-                    last = middle-1;
+                    last = middle - 1;
                 }
                 else
                 {
-                    first = middle+1;
+                    first = middle + 1;
                 }
 
             }
@@ -159,7 +181,49 @@ namespace Search
         #endregion
         static void Main(string[] args)
         {
-            
+            Console.WriteLine("Выберите метод сортировки:\n1)Сортировка Пузырьком\n2)Сортировка Выбором\n3)Сортировка вставками\n4)Сортировка Шелла\n5)Быстрая сортировка");
+            int check = int.Parse(Console.ReadLine());
+            int[] arr = Create();
+            Console.WriteLine("Исходный массив:");
+            ShowArr(arr);
+            switch(check)
+            {
+                case 1:
+                    Console.WriteLine("Отсортированный массив:");
+                    BubbleSort(arr);
+                    break;
+                case 2:
+                    Console.WriteLine("Отсортированный массив:");
+                    SortByChoice(arr);
+                    break;
+                case 3:
+                    Console.WriteLine("Отсортированный массив:");
+                    InsertionSort(arr);
+                    break;
+                case 4:
+                    Console.WriteLine("Отсортированный массив:");
+                    SortOFShell(arr);
+                    break;
+                case 5:
+                    int first = 0;
+                    int last = arr.Length - 1;
+                    QSort(arr,first,last);
+                    Console.WriteLine("Отсортированный массив:");
+                    ShowArr(arr);
+                    break;
+            }
+            Console.WriteLine("Выберите метод поиска:\n1)Метод перебора\n2)Бинарный поиск");
+            check = int.Parse(Console.ReadLine());
+            switch(check)
+            {
+                case 1:
+                    Search(arr);
+                    break;
+                case 2:
+                    BinarySearch(arr);
+                    break;
+            }
+
         }
     }
 }
