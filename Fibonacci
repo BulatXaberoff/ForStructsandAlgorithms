@@ -1,0 +1,134 @@
+using System;
+
+namespace ComplexNumbers
+{
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Введите размер массива, в котором будут хранятся числа Фибоначчи");
+            int n = int.Parse(Console.ReadLine());
+            int[] arr = new int[n];
+            FillArrNumbersOfFibonacci(arr);
+            ShowArr(arr);
+            ToChooseMethod(arr);
+        }
+
+        private static void ToChooseMethod(int []arr)
+        {
+            
+            bool check = true;
+            do
+            {
+                Console.WriteLine("Выберите один из методов:" +
+                "\n1)Поиск чисел Фибоначчи в указанном диапазоне от a до b, и вывод их на экран" +
+                "\n2)Вывод на экран n-ного элемента ряда" +
+                "\n3)Подсчёт количества чисел Фибоначчи в указанном диапазоне" +
+                "\n4)Выход из консоли");
+                int choose = int.Parse(Console.ReadLine());
+                switch (choose)
+                {
+                    case 1:
+                        Console.WriteLine("Вы выбрали метод 1:");
+                        FindNumbers(arr);
+                        break;
+                    case 2:
+                        Console.WriteLine("Вы выбрали метод 2:");
+                        RowNumberDisplay(arr);
+                        break;
+                    case 3:
+                        Console.WriteLine("Вы выбрали метод 3:");
+                        CountingFibonacciNumbers(arr);
+                        break;
+                    case 4:
+                        Console.WriteLine("Вы выбрали выход из консоли");
+                        check = false;
+                        break;
+                    default:
+                        Console.WriteLine("Некорректно введены данные");
+                        break;
+                }
+            } while (check);            
+        }
+
+        private static void CountingFibonacciNumbers(int[] arr)
+        {
+            Console.WriteLine("Укажите диапазон от а до б:");
+            int a = int.Parse(Console.ReadLine());
+            int b = int.Parse(Console.ReadLine());
+            int count = 0;
+            Console.WriteLine($"Выбранный вами диапазон равен:" +
+                $"[{a},{b}]:");
+            for (int i = a; i < b; i++)
+            {
+                count++;
+            }
+            Console.WriteLine($"Количество чисел Фибоначчи в указанном диапазоне " +
+                $"[{a},{b}]:\n" +
+                $"{count}");
+        }
+
+        private static void RowNumberDisplay(int[] arr)
+        {
+            Console.WriteLine("Выберите элемент ряда:");
+            int number = int.Parse(Console.ReadLine());
+            Search(arr, number);
+        }
+        static void Search(int[] arr, int key = 0)
+        {
+            int k;
+            if (key == 0)
+            {
+                Console.WriteLine("Введите ключ:");
+                k = int.Parse(Console.ReadLine());
+                key = k;
+            }
+            int index = -1;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] == key)
+                {
+                    index = i;
+                    Console.WriteLine($"Индекс элемента:{index + 1}");
+                }
+            }
+            if (index == -1)
+            {
+                Console.WriteLine("Искомый элемент не найден");
+            }
+        }
+        private static void FindNumbers(int []arr)
+        {
+            Console.WriteLine("Укажите диапазон от а до б:");
+            int a = int.Parse(Console.ReadLine());
+            int b = int.Parse(Console.ReadLine());
+            Console.WriteLine($"Выбранный вами диапазон равен:" +
+                $"[{a},{b}]:");
+            for (int i = a; i < b; i++)
+            {
+                Console.Write(arr[i] + " ");
+            }
+        }
+
+        static void FillArrNumbersOfFibonacci(int []arr)
+        {
+            int temp = 0;
+            arr[0] = temp;
+            temp = 1;
+            for (int i = 1; i < arr.Length; i++)
+            {
+                arr[i] = temp;
+                temp += arr[i - 1];
+            }
+        }
+        static void ShowArr(int []arr)
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                Console.Write(arr[i] + " ");
+            }
+            Console.WriteLine();
+        }
+    }
+}
