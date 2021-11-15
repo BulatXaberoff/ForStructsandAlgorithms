@@ -179,51 +179,85 @@ namespace StructPrograming
                 Console.WriteLine("Ничего не найдено");
         }
         #endregion
+        static int [] Temp_Merge(int []arr)
+        {
+            if (arr.Length<2)
+            {
+                return arr;
+            }
+            int mid = arr.Length / 2;
+
+            return Merge(Temp_Merge(arr.Take(mid).ToArray()),Temp_Merge(arr.Skip(mid).ToArray()));
+        }
+        static int[]Merge(int[]arr1,int []arr2)
+        {
+            int a = 0, b = 0;
+            int[] merged = new int[arr1.Length + arr2.Length];
+            for (int i = 0; i < merged.Length; i++)
+            {
+                if (b < arr2.Length && a < arr1.Length)
+                    if (arr1[a] > arr2[b])
+                        merged[i] = arr2[b++];
+                    else
+                        merged[i] = arr1[a++];
+                else
+                    if (b < arr2.Length)
+                    merged[i] = arr2[b++];
+                else
+                    merged[i] = arr1[a++];
+            }
+            return merged;
+        }
         static void Main(string[] args)
         {
-            Console.WriteLine("Выберите метод сортировки:\n1)Сортировка Пузырьком\n2)Сортировка Выбором\n3)Сортировка вставками\n4)Сортировка Шелла\n5)Быстрая сортировка");
-            int check = int.Parse(Console.ReadLine());
-            int[] arr = Create();
-            Console.WriteLine("Исходный массив:");
-            ShowArr(arr);
-            switch(check)
-            {
-                case 1:
-                    Console.WriteLine("Отсортированный массив:");
-                    BubbleSort(arr);
-                    break;
-                case 2:
-                    Console.WriteLine("Отсортированный массив:");
-                    SortByChoice(arr);
-                    break;
-                case 3:
-                    Console.WriteLine("Отсортированный массив:");
-                    InsertionSort(arr);
-                    break;
-                case 4:
-                    Console.WriteLine("Отсортированный массив:");
-                    SortOFShell(arr);
-                    break;
-                case 5:
-                    int first = 0;
-                    int last = arr.Length - 1;
-                    QSort(arr,first,last);
-                    Console.WriteLine("Отсортированный массив:");
-                    ShowArr(arr);
-                    break;
-            }
-            Console.WriteLine("Выберите метод поиска:\n1)Метод перебора\n2)Бинарный поиск");
-            check = int.Parse(Console.ReadLine());
-            switch(check)
-            {
-                case 1:
-                    Search(arr);
-                    break;
-                case 2:
-                    BinarySearch(arr);
-                    break;
-            }
-
+             #region
+            //Console.WriteLine("Выберите метод сортировки:\n1)Сортировка Пузырьком\n2)Сортировка Выбором\n3)Сортировка вставками\n4)Сортировка Шелла\n5)Быстрая сортировка");
+            //int check = int.Parse(Console.ReadLine());
+            //int[] arr = Create();
+            //Console.WriteLine("Исходный массив:");
+            //ShowArr(arr);
+            //switch(check)
+            //{
+            //    case 1:
+            //        Console.WriteLine("Отсортированный массив:");
+            //        BubbleSort(arr);
+            //        break;
+            //    case 2:
+            //        Console.WriteLine("Отсортированный массив:");
+            //        SortByChoice(arr);
+            //        break;
+            //    case 3:
+            //        Console.WriteLine("Отсортированный массив:");
+            //        InsertionSort(arr);
+            //        break;
+            //    case 4:
+            //        Console.WriteLine("Отсортированный массив:");
+            //        SortOFShell(arr);
+            //        break;
+            //    case 5:
+            //        int first = 0;
+            //        int last = arr.Length - 1;
+            //        QSort(arr,first,last);
+            //        Console.WriteLine("Отсортированный массив:");
+            //        ShowArr(arr);
+            //        break;
+            //}
+            //Console.WriteLine("Выберите метод поиска:\n1)Метод перебора\n2)Бинарный поиск");
+            //check = int.Parse(Console.ReadLine());
+            //switch(check)
+            //{
+            //    case 1:
+            //        Search(arr);
+            //        break;
+            //    case 2:
+            //        BinarySearch(arr);
+            //        break;
+            //}
+            #endregion
+            int[] array = { 14,2,5,10,1,7,4};
+            ShowArr(array);
+            array = Temp_Merge(array);
+            ShowArr(array);
         }
     }
 }
