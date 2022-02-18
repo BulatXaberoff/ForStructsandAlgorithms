@@ -1,0 +1,36 @@
+using System;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Вводите числа через пробел");
+            string s = Console.ReadLine();
+            string[] words = s.Split(new char[] { ' ' });
+
+            Console.WriteLine("Введите число кратное n");
+            int n = int.Parse(Console.ReadLine());
+            string se = "";
+            for (int i = 0; i < words.Length; i++)
+            {
+                var temp = Convert.ToInt32(words[i]);
+                if (temp%n!=0)
+                {
+                    se += words[i] + ",";
+                }
+            }
+            words=se.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            int[] arr = new int[words.Length];
+            for (int i = 0; i < words.Length; i++)
+            {
+                arr[i] = Convert.ToInt32(words[i]);
+            }
+            for (int i = 0; i < arr.Length; i++)
+            {
+                Console.Write(arr[i]+ " ");
+            }
+        }
+    }
+}
