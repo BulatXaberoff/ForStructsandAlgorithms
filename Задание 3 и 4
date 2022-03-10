@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -175,8 +176,162 @@ namespace ConsoleApp1
         //    }
         //    Console.WriteLine(PowerNum(v1, v2));
         //}
+        public class DoublyNode<T>
+        {
+            public DoublyNode(T data)
+            {
+                Data = data;
+            }
+            public T Data { get; set; }
+            public DoublyNode<T> Previous { get; set; }
+            public DoublyNode<T> Next { get; set; }
+        }
+        public class Deque<T> : IEnumerable<T>  // двусвязный список
+        {
+            DoublyNode<T> head; // головной/первый элемент
+            DoublyNode<T> tail; // последний/хвостовой элемент
+            int count;  // количество элементов в списке
 
+            // добавление элемента
+            public void AddLast(T data)
+            {
+                DoublyNode<T> node = new DoublyNode<T>(data);
 
+                if (head == null)
+                    head = node;
+                else
+                {
+                    tail.Next = node;
+                    node.Previous = tail;
+                }
+                tail = node;
+                count++;
+            }
+            public void AddFirst(T data)
+            {
+                DoublyNode<T> node = new DoublyNode<T>(data);
+                DoublyNode<T> temp = head;
+                node.Next = temp;
+                head = node;
+                if (count == 0)
+                    tail = head;
+                else
+                    temp.Previous = node;
+                count++;
+            }
+            public T RemoveFirst()
+            {
+                if (count == 0)
+                    throw new InvalidOperationException();
+                T output = head.Data;
+                if (count == 1)
+                {
+                    head = tail = null;
+                }
+                else
+                {
+                    head = head.Next;
+                    head.Previous = null;
+                }
+                count--;
+                return output;
+            }
+            public T RemoveLast()
+            {
+                if (count == 0)
+                    throw new InvalidOperationException();
+                T output = tail.Data;
+                if (count == 1)
+                {
+                    head = tail = null;
+                }
+                else
+                {
+                    tail = tail.Previous;
+                    tail.Next = null;
+                }
+                count--;
+                return output;
+            }
+            public T First
+            {
+                get
+                {
+                    if (IsEmpty)
+                        throw new InvalidOperationException();
+                    return head.Data;
+                }
+            }
+            public T Last
+            {
+                get
+                {
+                    if (IsEmpty)
+                        throw new InvalidOperationException();
+                    return tail.Data;
+                }
+            }
+
+            public void Print()
+            {
+                Console.WriteLine("Текущий дек");
+                foreach (var item in this)
+                {
+                    Console.Write(item + "\t");
+                }
+                Console.WriteLine();
+            }
+
+            public int Count { get { return count; } }
+            public bool IsEmpty { get { return count == 0; } }
+
+            public void Clear()
+            {
+                head = null;
+                tail = null;
+                count = 0;
+            }
+
+            public bool Contains(T data)
+            {
+                DoublyNode<T> current = head;
+                while (current != null)
+                {
+                    if (current.Data.Equals(data))
+                        return true;
+                    current = current.Next;
+                }
+                return false;
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return ((IEnumerable)this).GetEnumerator();
+            }
+
+            IEnumerator<T> IEnumerable<T>.GetEnumerator()
+            {
+                DoublyNode<T> current = head;
+                while (current != null)
+                {
+                    yield return current.Data;
+                    current = current.Next;
+                }
+            }
+            public Deque<string> Merger(Deque<string> ob)
+            {
+                Deque<string> deck = new Deque<string>();
+                foreach (var item in this)
+                {
+                    deck.AddFirst(item as string);
+                }
+                foreach (var item in ob)
+                {
+                    deck.AddFirst(item as string);
+                }
+                return deck;
+            }
+        }
         static void Main(string[] args)
         {
             //Console.WriteLine("Введите число, которую нужно возвести в степень");
@@ -185,10 +340,100 @@ namespace ConsoleApp1
             //var b = int.Parse(Console.ReadLine());
             //Console.WriteLine($"Результат: {PowerNum(a,b)}") ;
 
+
+            //Ex3();
+            Deque<string> deck = new Deque<string>();
+            bool check = true;
+            do
+            {
+                Console.WriteLine("Выберите действия:\n" +
+                           "1 - добавление элемента в начало дека\n" +
+                           "2 - добавление элемента в конец дека\n" +
+                           "3 - удаление элемента в начало дека\n" +
+                           "4 - удаление элемента в конец дека\n" +
+                           "5 - подсчет числа элементов дека\n" +
+                           "6 - очистка дека\n" +
+                           "7 - вывод содержимого дека на экран\n" +
+                           "0 - выход");
+                int n = int.Parse(Console.ReadLine());
+                string[] mass = null;
+                switch (n)
+                {
+                    case 1:
+                        mass = (Console.ReadLine()).Split(' ');
+                        foreach (var item in mass)
+                        {
+                            deck.AddFirst(item);
+                        }
+                        break;
+                    case 2:
+                        mass = (Console.ReadLine()).Split(' ');
+                        foreach (var item in mass)
+                        {
+                            deck.AddLast(item);
+                        }
+                        break;
+                    case 3:
+                        mass = (Console.ReadLine()).Split(' ');
+                        foreach (var item in mass)
+                        {
+                            deck.RemoveFirst();
+                        }
+                        break;
+                    case 4:
+                        mass = (Console.ReadLine()).Split(' ');
+                        foreach (var item in mass)
+                        {
+                            deck.RemoveLast();
+                        }
+                        break;
+                    case 5:
+                        Console.WriteLine("Кол-во элементов\t " + deck.Count);
+                        break;
+                    case 6:
+                        deck.Clear();
+                        break;
+                    case 7:
+                        deck.Print();
+                        break;
+                    default:
+                        check = false;
+                        break;
+                }
+            } while (check);
+            Console.WriteLine("Создание первого дека");
+            Deque<string> deck1 = new Deque<string>();
+
+            string[] s1 = (Console.ReadLine()).Split(' ');
+
+            foreach (var item in s1)
+            {
+                deck1.AddFirst(item);
+            }
+
+            Console.WriteLine("Создание второго дека");
+            Deque<string> deck2 = new Deque<string>();
+            string[] s2 = (Console.ReadLine()).Split(' ');
+
+            foreach (var item in s2)
+            {
+                deck2.AddFirst(item);
+            }
+            var m = deck1.Merger(deck2);
+
+            foreach (var item in m)
+            {
+                Console.Write(item + "\t");
+            }
+            Console.ReadLine();
+        }
+
+        private static void Ex3()
+        {
             int sw = 0;
             do
             {
-                Console.WriteLine("Выберите тип используемых данных\n" +
+                Console.WriteLine("выберите тип используемых данных\n" +
                     "1 - переменные вещественного типа\n" +
                     "2 - переменные ввиде строк\n" +
                     "0 - выход из программы");
@@ -327,9 +572,6 @@ namespace ConsoleApp1
                 else
                     Console.WriteLine("Неверный ввод");
             } while (true);
-            Console.ReadLine();
         }
-
-
     }
 }
