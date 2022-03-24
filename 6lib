@@ -1,0 +1,95 @@
+using System;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static string [,]arr;
+        static int count = 0;
+        static int countV=0;
+        public static void output()
+        {
+            for (int i = 0; i < countV; i++)
+            {
+                for (int j = 0; j < countV; j++)
+                {
+                    if (arr[i, j] == "")
+                    {
+                        Console.Write("\t");
+                    }
+                    else
+                    {
+                        Console.Write("\t" + arr[i, j]);
+                    }
+
+                }
+                Console.WriteLine();
+            }
+        }
+        static void Main(string[] args)
+        {
+            bool check = true;
+            Console.WriteLine("Введите кол-во вершин");
+            countV = int.Parse(Console.ReadLine());
+            arr = new string[countV,countV];
+            Console.WriteLine("Выбор действия:\n" +
+                "1-Добавить вершину\n" +
+                "2-Удалить вершину\n" +
+                "3-Выйти из программы\n");
+            int choose = Convert.ToInt32(Console.ReadLine());
+            do
+            {
+                switch (choose)
+                {
+                    case 1:
+                        if (count > countV)
+                        {
+                            Console.WriteLine("Вершин больше чем вводимое кол-во");
+                        }
+                        int x, y;
+                        Add();
+                        break;
+                    case 2:
+                        Del(out x, out y);
+                        break;
+                    case 3:
+                        check = false;
+                        break;
+                    default:
+                        break;
+                }
+                output();
+            } while (check);
+            Console.ReadLine();
+        }
+
+        private static void Del(out int x, out int y)
+        {
+            count--;
+            if (count == 0)
+            {
+                Console.WriteLine("Вершин больше нет");
+            }
+            Console.WriteLine("Введите номер ряда вершины");
+            x = Convert.ToInt32(Console.ReadLine()) - 1;
+            Console.WriteLine("Введите порядковый номер вершины в ряду");
+            y = Convert.ToInt32(Console.ReadLine()) - 1;
+            arr[x, y] = "";
+
+            Console.WriteLine("Подберите другие параметры");
+            count++;
+
+        }
+
+        private static void Add()
+        {
+            Console.WriteLine("Введите номер ряда вершины");
+            int x = Convert.ToInt32(Console.ReadLine()) - 1;
+            Console.WriteLine("Введите порядковый номер вершины в ряду");
+            int y = Convert.ToInt32(Console.ReadLine()) - 1;
+            Console.WriteLine("Введите значение вершины отличное от нуля");
+            string number = Console.ReadLine();
+            arr[x, y] = number;
+        }
+    }
+}
